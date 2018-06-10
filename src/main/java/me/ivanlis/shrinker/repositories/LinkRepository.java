@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface LinkRepository extends ReactiveMongoRepository<Link, String> {
 
-    Mono<Link> findByShortLink(String shortLink);
+    Mono<Link> findByShortUrl(String shortLink);
 }

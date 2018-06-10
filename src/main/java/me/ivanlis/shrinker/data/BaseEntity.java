@@ -1,10 +1,9 @@
 package me.ivanlis.shrinker.data;
 
-import static java.lang.Boolean.*;
+import static java.lang.Boolean.FALSE;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;

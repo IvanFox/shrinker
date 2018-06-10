@@ -3,6 +3,7 @@ package me.ivanlis.shrinker.data;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import me.ivanlis.shrinker.api.ApiLink;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,8 +14,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Link extends BaseEntity {
 
     @Indexed
-    String shortLink;
+    String shortUrl;
 
-    String link;
+    String url;
+
+    public ApiLink getApiLink(){
+        return ApiLink.of(shortUrl, url);
+    }
 
 }
