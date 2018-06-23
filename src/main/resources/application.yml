@@ -9,3 +9,8 @@ spring:
 #      password:
       host: localhost
       port: 27017
+
+
+kafka:
+  groupId: shrinker
+  bootstrap: localhost:9092
