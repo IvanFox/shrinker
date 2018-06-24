@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -25,6 +26,11 @@ public class ApiController {
     public Mono<ApiLink> findLink(@RequestParam String shortLink) {
         log.info("Retrieving full url using: {}", shortLink);
         return orchestrator.findByShortUrl(shortLink).map(Link::getApiLink);
+    }
+
+    @GetMapping("/find/all")
+    public Flux<ApiLink> findAll() {
+        return orchestrator.findAll().map(Link::getApiLink);
     }
 
     @PostMapping(path = "/create", consumes = "application/json")

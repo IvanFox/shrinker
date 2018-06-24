@@ -20,7 +20,7 @@ public class LinkPublisher {
 
     public void send(ApiLink apiLink) {
         log.info("Sending link to kafka. {}", apiLink);
-        kafkaTemplate.send(TOPIC, apiLink.getLink(), GSON.toJson(apiLink));
+        kafkaTemplate.send(TOPIC, apiLink.getUrl(), GSON.toJson(apiLink));
     }
 
 }
