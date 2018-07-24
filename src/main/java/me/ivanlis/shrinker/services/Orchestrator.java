@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import me.ivanlis.shrinker.algos.Shortener;
-import me.ivanlis.shrinker.api.ApiLink;
+import me.ivanlis.shrinker.api.ApiLinkModel;
 import me.ivanlis.shrinker.data.Link;
 import me.ivanlis.shrinker.repositories.LinkRepository;
 import org.springframework.stereotype.Service;
@@ -22,9 +22,9 @@ public class Orchestrator {
 
     private final LinkPublisher publisher;
 
-    public ApiLink createLink(String url) {
+    public ApiLinkModel createLink(String url) {
         String shortUrl = shortener.encode(url);
-        val link = ApiLink.of(shortUrl, url);
+        val link = ApiLinkModel.of(shortUrl, url);
         publisher.send(link);
         return link;
 

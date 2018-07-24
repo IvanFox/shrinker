@@ -19,8 +19,7 @@ public class KafkaConsumerConfig {
     @Bean
     public ConsumerFactory<String, String> consumerFactory(
         @Value("${kafka.bootstrap}") String bootstrapAddress,
-        @Value("${kafka.groupId}") String groupId
-        )
+        @Value("${kafka.groupId}") String groupId)
     {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);

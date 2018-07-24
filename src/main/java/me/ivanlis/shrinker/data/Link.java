@@ -3,14 +3,14 @@ package me.ivanlis.shrinker.data;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.ivanlis.shrinker.api.ApiLink;
+import me.ivanlis.shrinker.api.ApiLinkModel;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
 @Document(collection = "link")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class Link extends BaseEntity {
 
     @Indexed
@@ -18,8 +18,8 @@ public class Link extends BaseEntity {
 
     String url;
 
-    public ApiLink getApiLink(){
-        return ApiLink.of(shortUrl, url);
+    public ApiLinkModel getAsApiModel(){
+        return ApiLinkModel.of(shortUrl, url);
     }
 
 }

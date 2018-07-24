@@ -3,7 +3,7 @@ package me.ivanlis.shrinker.api;
 import lombok.Value;
 
 @Value(staticConstructor = "of")
-public class ApiLink {
+public class ApiLinkModel {
 
     String shortUrl;
 
