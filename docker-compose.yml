@@ -21,3 +21,8 @@ services:
       - 8084-8086:8081-8083       # REST Proxy, Schema Registry, Kafka Connect ports
       - 9581-9585:9581-9585       # JMX Ports
       - 9092:9092                 # Kafka Broker
+
+  web:
+    build: .
+    ports:
+     - "12345:12345"
