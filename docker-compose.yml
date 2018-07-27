@@ -6,23 +6,65 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /Users/ivan.lissitsnoi/mongo_storage:/bitnami
+      - 'mongodb_data:/bitnami'
 
-  kafka-cluster:
-    image: landoop/fast-data-dev:cp3.3.0
+  confluent-zookeeper:
+    image: confluentinc/cp-zookeeper:${CONFLUENT_VERSION}
+    network_mode: host
     environment:
-      ADV_HOST: 127.0.0.1         # Change to 192.168.99.100 if using Docker Toolbox
-      RUNTESTS: 0                 # Disable Running tests so the cluster starts faster
-      FORWARDLOGS: 0              # Disable running 5 file source connectors that bring application logs into Kafka topics
-      SAMPLEDATA: 0               # Do not create sea_vessel_position_reports, nyc_yellow_taxi_trip_data, reddit_posts topics with sample Avro records.
-    ports:
-      - 2181:2181                 # Zookeeper
-      - 3030:3030                 # Landoop UI
-      - 8084-8086:8081-8083       # REST Proxy, Schema Registry, Kafka Connect ports
-      - 9581-9585:9581-9585       # JMX Ports
-      - 9092:9092                 # Kafka Broker
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
 
-  web:
+  confluent-kafka-1:
+    image: confluentinc/cp-kafka:${CONFLUENT_VERSION}
+    network_mode: host
+    depends_on:
+      - confluent-zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: ${DOCKER_MACHINE_IP}:32181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${DOCKER_MACHINE_IP}:9092
+
+
+  confluent-kafka-2:
+    image: confluentinc/cp-kafka:${CONFLUENT_VERSION}
+    network_mode: host
+    depends_on:
+      - confluent-zookeeper
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: ${DOCKER_MACHINE_IP}:32181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${DOCKER_MACHINE_IP}:9093
+
+  confluent-kafka-3:
+    image: confluentinc/cp-kafka:${CONFLUENT_VERSION}
+    network_mode: host
+    depends_on:
+      - confluent-zookeeper
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: ${DOCKER_MACHINE_IP}:32181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${DOCKER_MACHINE_IP}:90924
+
+#  kafka-cluster:
+#    image: landoop/fast-data-dev:cp3.3.0
+#    environment:
+#      ADV_HOST: 127.0.0.1         # Change to 192.168.99.100 if using Docker Toolbox
+#      RUNTESTS: 0                 # Disable Running tests so the cluster starts faster
+#      FORWARDLOGS: 0              # Disable running 5 file source connectors that bring application logs into Kafka topics
+#      SAMPLEDATA: 0               # Do not create sea_vessel_position_reports, nyc_yellow_taxi_trip_data, reddit_posts topics with sample Avro records.
+#    ports:
+#      - 2181:2181                 # Zookeeper
+#      - 3030:3030                 # Landoop UI
+#      - 8084-8086:8081-8083       # REST Proxy, Schema Registry, Kafka Connect ports
+#      - 9581-9585:9581-9585       # JMX Ports
+#      - 9092:9092                 # Kafka Broker
+
+  backend:
     build: .
     ports:
      - "12345:12345"
+
+volumes:
+  mongodb_data:
+    driver: local
