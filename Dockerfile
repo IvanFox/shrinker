@@ -7,4 +7,4 @@ VOLUME /data
 
 COPY build/libs/*.jar /app/service.jar
 
-CMD ["java", "-jar", "/app/service.jar"]
+CMD ["java", "-jar -Dspring.profiles.active=production", "/app/service.jar"]
