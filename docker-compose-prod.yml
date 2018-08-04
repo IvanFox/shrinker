@@ -3,9 +3,7 @@ version: '3'
 services:
 
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ivanfox/shrinker:latest
     environment:
       - SPRING_PROFILES_ACTIVE=production
     ports:
