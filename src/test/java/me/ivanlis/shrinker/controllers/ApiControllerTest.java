@@ -1,7 +1,10 @@
 package me.ivanlis.shrinker.controllers;
 
+import java.util.Arrays;
 import me.ivanlis.shrinker.api.ApiLinkModel;
+import me.ivanlis.shrinker.data.Link;
 import me.ivanlis.shrinker.services.Orchestrator;
+import me.ivanlis.shrinker.utils.LinkNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -33,24 +36,22 @@ public class ApiControllerTest {
         String endpoint = "find/?shortLink=";
         String shortenUrl = "u8s1";
 
-        Mockito.when(orchestrator.findByShortUrl(shortenUrl)).thenReturn(Mono.empty());
+        Mockito.when(orchestrator.findByShortUrl(shortenUrl)).thenReturn(Mono.justOrEmpty(new Link("u8s1", "test.com")));
 
         webTestClient.get().uri(endpoint + shortenUrl)
             .exchange()
-            .expectStatus().isOk()
-            .expectBody(ApiLinkModel.class);
+            .expectStatus().isOk();
     }
 
     @Test
     public void findAll() {
         String endpoint = "find/all";
-
-        Mockito.when(orchestrator.findAll()).thenReturn(Flux.empty());
+        Flux<Link> flux = Flux.fromIterable(Arrays.asList(new Link("u8s1", "test.com")));
+        Mockito.when(orchestrator.findAll()).thenReturn(flux);
 
         webTestClient.get().uri(endpoint)
             .exchange()
-            .expectStatus().isOk()
-            .expectBodyList(ApiLinkModel.class);
+            .expectStatus().isOk();
     }
 
     @Test

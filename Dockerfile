@@ -5,6 +5,6 @@ EXPOSE 12345
 
 VOLUME /data
 
-COPY build/libs/*.jar /app/service.jar
+COPY build/libs/*.jar /app/app.jar
 
-CMD ["java", "-jar -Dspring.profiles.active=production", "/app/service.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app/app.jar"]
