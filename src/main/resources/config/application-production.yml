@@ -10,7 +10,7 @@ spring:
 
 kafka:
   groupId: shrinker
-  bootstrap: localhost:9092,localhost:9093,localhost:9094
+  bootstrap: kafka-1:9092
 
 server:
   port: 12345
