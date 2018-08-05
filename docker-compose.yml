@@ -68,6 +68,8 @@ services:
       - SPRING_PROFILES_ACTIVE=development
     ports:
      - "12345:12345"
+    depends_on:
+      - mongodb
 
 volumes:
   mongodb_data:
